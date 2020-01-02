@@ -1,0 +1,89 @@
+version: '3.4'
+
+services:
+  php:
+    build:
+      context: .
+      target: application_php_runtime
+      cache_from:
+        - registry.gitlab.com/gabiudrescu/symfonystarter/php:master
+        - registry.gitlab.com/gabiudrescu/symfonystarter/nodejs:master
+        - registry.gitlab.com/gabiudrescu/symfonystarter/nginx:master
+      args:
+        - USER_UID=1000
+    image: registry.gitlab.com/gabiudrescu/symfonystarter/php:master
+    depends_on:
+      - mysql
+    environment:
+      - PHP_DATE_TIMEZONE=${PHP_DATE_TIMEZONE:-UTC}
+    volumes:
+      - .:/home/www-data/application:rw,cached
+      - ~/.ssh:/home/www-data/.ssh
+      - ~/.composer:/home/www-data/.composer
+
+  mysql:
+    image: percona:5.7
+    command: mysqld --sql_mode=""
+    env_file:
+      - .env
+    volumes:
+      - mysql-data:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
+
+  nodejs:
+    build:
+      context: .
+      target: application_nodejs
+      cache_from:
+        - registry.gitlab.com/gabiudrescu/symfonystarter/php:master
+        - registry.gitlab.com/gabiudrescu/symfonystarter/nodejs:master
+        - registry.gitlab.com/gabiudrescu/symfonystarter/nginx:master
+      args:
+        - USER_UID=1000
+    image: registry.gitlab.com/gabiudrescu/symfonystarter/nodejs:master
+    depends_on:
+      - php
+    environment:
+      - NODE_ENV=dev
+      - PHP_HOST=php
+      - PHP_PORT=9000
+    volumes:
+      - .:/home/node/application:rw,cached
+    ports:
+      - "35729:35729"
+      - "8080:8080"
+
+  nginx:
+    build:
+      context: .
+      target: application_nginx
+      cache_from:
+        - registry.gitlab.com/gabiudrescu/symfonystarter/php:master
+        - registry.gitlab.com/gabiudrescu/symfonystarter/nodejs:master
+        - registry.gitlab.com/gabiudrescu/symfonystarter/nginx:master
+    image: registry.gitlab.com/gabiudrescu/symfonystarter/nginx:master
+    depends_on:
+      - php
+      - nodejs
+    volumes:
+      - ./public:/home/www-data/application/public:ro
+    ports:
+      - "80:80"
+
+  mailhog:
+    # do not use in production!
+    image: mailhog/mailhog:latest
+    environment:
+      - MH_STORAGE=maildir
+    volumes:
+      - mailhog-data:/maildir:rw
+    ports:
+      - "8025:8025"
+
+  redis:
+    image: redis:5-alpine
+
+volumes:
+  mysql-data:
+  mailhog-data:

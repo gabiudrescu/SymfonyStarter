@@ -1,5 +1,5 @@
 parameters:
-    locale: fr_FR
+    locale: '%env(resolve:APP_LOCALE)%'
     secret: '%env(resolve:APP_SECRET)%'
 
 framework:

@@ -44,7 +44,7 @@
   },
   "scripts": {
     "build": "yarn encore production",
-    "dev": "yarn encore dev-server --hot",
+    "dev": "yarn encore dev-server --hot --host 0.0.0.0",
     "lint": "yarn lint:js",
     "lint:js": "eslint gulpfile.babel.js src/Sylius/Bundle/AdminBundle/gulpfile.babel.js src/Sylius/Bundle/ShopBundle/gulpfile.babel.js src/Sylius/Bundle/UiBundle/Resources/private/js src/Sylius/Bundle/AdminBundle/Resources/private/js src/Sylius/Bundle/ShopBundle/Resources/private/js"
   },
