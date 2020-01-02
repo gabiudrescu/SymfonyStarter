@@ -7,6 +7,10 @@ env:
         - APP_ENV=test
         - APP_NAME_CACHE_DIR=$HOME/.app_name-cache
         - APP_NAME_BUILD_DIR=etc/build
+        - MYSQL_HOST=127.0.0.1
+        - MYSQL_USER=root
+        - MYSQL_PASSWORD=
+        - MYSQL_DATABASE=application_test
 
 matrix:
     include:
