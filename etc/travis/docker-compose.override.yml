@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  php:
+    build:
+      args:
+        - USER_ID=2000
+
+  nodejs:
+    build:
+      args:
+        - USER_ID=2000

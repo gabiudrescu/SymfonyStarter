@@ -51,14 +51,15 @@ matrix:
                 - while sudo lsof -Pi :3306 -sTCP:LISTEN -t; do sleep 1; done
 
             script:
+                - id
                 - docker-compose --version
-                - docker-compose pull --ignore-pull-failures || true
-                - docker-compose build --pull
-                - docker-compose up -d
+                - docker-compose -f docker-compose.yml -f etc/travis/docker-compose.override.yml pull --ignore-pull-failures || true
+                - docker-compose -f docker-compose.yml -f etc/travis/docker-compose.override.yml  build --pull
+                - docker-compose -f docker-compose.yml -f etc/travis/docker-compose.override.yml up -d
 
                 - sleep 60
 
-                - docker-compose logs --no-color --tail=10000
+                - docker-compose -f docker-compose.yml -f etc/travis/docker-compose.override.yml logs --no-color --tail=100000
 
                 - curl http://localhost/
         -
