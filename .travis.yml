@@ -23,6 +23,45 @@ matrix:
             services:
                 - memcached
         -
+            name: "Docker build"
+
+            sudo: required
+
+            env:
+                - DOCKER_COMPOSE_VERSION=1.22.0
+                - APP_NAME_SUITE="docker"
+
+            services:
+                - docker
+
+            addons:
+                apt:
+                    packages:
+                        - docker-ce
+
+            before_install:
+              # Install custom version of docker-composer
+                - sudo rm /usr/local/bin/docker-compose
+                - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+                - chmod +x docker-compose
+                - sudo mv docker-compose /usr/local/bin
+
+                # Shutdown vanilla mysql
+                - sudo service mysql stop
+                - while sudo lsof -Pi :3306 -sTCP:LISTEN -t; do sleep 1; done
+
+            script:
+                - docker-compose --version
+                - docker-compose pull --ignore-pull-failures || true
+                - docker-compose build --pull
+                - docker-compose up -d
+
+                - sleep 60
+
+                - docker-compose logs --no-color --tail=10000
+
+                - curl http://localhost/
+        -
             sudo: false
             php: 7.2
             env: APP_NAME_SUITE="docs packages"

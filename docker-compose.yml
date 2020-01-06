@@ -6,12 +6,12 @@ services:
       context: .
       target: application_php_runtime
       cache_from:
-        - registry.gitlab.com/gabiudrescu/symfonystarter/php:master
-        - registry.gitlab.com/gabiudrescu/symfonystarter/nodejs:master
-        - registry.gitlab.com/gabiudrescu/symfonystarter/nginx:master
+        - monofony/symfonystarter-php:master
+        - monofony/symfonystarter-nodejs:master
+        - monofony/symfonystarter-nginx:master
       args:
         - USER_UID=1000
-    image: registry.gitlab.com/gabiudrescu/symfonystarter/php:master
+    image: monofony/symfonystarter-php:master
     depends_on:
       - mysql
     environment:
@@ -36,12 +36,12 @@ services:
       context: .
       target: application_nodejs
       cache_from:
-        - registry.gitlab.com/gabiudrescu/symfonystarter/php:master
-        - registry.gitlab.com/gabiudrescu/symfonystarter/nodejs:master
-        - registry.gitlab.com/gabiudrescu/symfonystarter/nginx:master
+        - monofony/symfonystarter-php:master
+        - monofony/symfonystarter-nodejs:master
+        - monofony/symfonystarter-nginx:master
       args:
         - USER_UID=1000
-    image: registry.gitlab.com/gabiudrescu/symfonystarter/nodejs:master
+    image: monofony/symfonystarter-nodejs:master
     depends_on:
       - php
     environment:
@@ -59,10 +59,10 @@ services:
       context: .
       target: application_nginx
       cache_from:
-        - registry.gitlab.com/gabiudrescu/symfonystarter/php:master
-        - registry.gitlab.com/gabiudrescu/symfonystarter/nodejs:master
-        - registry.gitlab.com/gabiudrescu/symfonystarter/nginx:master
-    image: registry.gitlab.com/gabiudrescu/symfonystarter/nginx:master
+        - monofony/symfonystarter-php:master
+        - monofony/symfonystarter-nodejs:master
+        - monofony/symfonystarter-nginx:master
+    image: monofony/symfonystarter-nginx:master
     depends_on:
       - php
       - nodejs
