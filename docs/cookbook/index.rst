@@ -49,3 +49,13 @@ Deployment
     deployment/capistrano
 
 .. include:: /cookbook/deployment/map.rst.inc
+
+Docker
+----------
+
+.. toctree::
+    :hidden:
+
+    docker/index
+
+.. include:: /cookbook/docker/map.rst.inc
