@@ -158,7 +158,7 @@ docker repository.
 
 Gitlab CI is using docker to run the tests and you need to specify a docker in docker setup in order to get things going.
 Because by default, the standard docker image is not providing ``docker-compose``, this image will use a community provided
-docker image. Read more `here <https://gitlab.com/gitlab-org/gitlab-foss/issues/30426#note_175592058>`_.
+docker image. Read more `here <https://gitlab.com/gitlab-org/gitlab-foss/issues/30426>`_.
 
 Your contribution
 -----------------
